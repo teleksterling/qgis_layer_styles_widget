@@ -1,2 +1,2 @@
-# qgis-toggle-labels-widget
-QGIS plugin adding a checkbox widget for toggling labels in a layer
+# qgis-layer-styles-widget
+QGIS plugin adding combobox widget for switching between layer styles

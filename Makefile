@@ -14,14 +14,14 @@ QGISDIR=.local/share/QGIS/QGIS3/profiles/default
 
 # translation
 SOURCES = \
-	toggle_labels_widget/__init__.py \
-	toggle_labels_widget/toggle_labels_widget.py
+	layer_styles_widget/__init__.py \
+	layer_styles_widget/layer_styles_widget.py
 
-PLUGINNAME = toggle_labels_widget
+PLUGINNAME = layer_styles_widget
 
 PY_FILES = \
-	toggle_labels_widget/__init__.py \
-	toggle_labels_widget/toggle_labels_widget.py
+	layer_styles_widget/__init__.py \
+	layer_styles_widget/layer_styles_widget.py
 
 EXTRAS = metadata.txt icon.png
 
@@ -44,7 +44,7 @@ test: transcompile
 	@-export PYTHONPATH=`pwd`:$(PYTHONPATH); \
 		export QGIS_DEBUG=0; \
 		export QGIS_LOG_FILE=/dev/null; \
-		nosetests3 -v -s --with-id --with-coverage --cover-package=. toggle_labels_widget.test \
+		nosetests3 -v -s --with-id --with-coverage --cover-package=. layer_styles_widget.test \
 		3>&1 1>&2 2>&3 3>&- || true
 	@echo "----------------------"
 	@echo "If you get a 'no module named qgis.core error, try sourcing"
@@ -61,7 +61,7 @@ deploy:
 	# The deploy  target only works on unix like operating system where
 	# the Python plugin directory is located at:
 	# $HOME/$(QGISDIR)/python/plugins
-	ln -s `pwd`/toggle_labels_widget $(HOME)/$(QGISDIR)/python/plugins/${PWD##*/}
+	ln -s `pwd`/layer_styles_widget $(HOME)/$(QGISDIR)/python/plugins/${PWD##*/}
 
 
 transup:
@@ -92,7 +92,7 @@ pylint:
 	@echo "-----------------"
 	@echo "Pylint violations"
 	@echo "-----------------"
-	@pylint --reports=n --rcfile=pylintrc toggle_labels_widget
+	@pylint --reports=n --rcfile=pylintrc layer_styles_widget
 	@echo
 	@echo "----------------------"
 	@echo "If you get a 'no module named qgis.core' error, try sourcing"
@@ -108,7 +108,7 @@ pycodestyle:
 	@echo "-----------"
 	@echo "pycodestyle PEP8 issues"
 	@echo "-----------"
-	@pycodestyle --repeat --ignore=E203,E121,E122,E123,E124,E125,E126,E127,E128,E402,E501,W504 --exclude $(PEP8EXCLUDE) toggle_labels_widget
+	@pycodestyle --repeat --ignore=E203,E121,E122,E123,E124,E125,E126,E127,E128,E402,E501,W504 --exclude $(PEP8EXCLUDE) layer_styles_widget
 	@echo "-----------"
 	@echo "Ignored in PEP8 check:"
 	@echo $(PEP8EXCLUDE)

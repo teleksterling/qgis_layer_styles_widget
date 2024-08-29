@@ -7,29 +7,29 @@
 # This file should be included when you package your plugin.# Mandatory items:
 
 [general]
-name=Layer Tree Toggle Labels Widget
-qgisMinimumVersion=3.4
-description=A layer tree widget for quick toggling of labels in a layer
-version=1.0.2
-author=North Road
-email=nyall@north-road.com
+name=Layer Tree Layer Styles Widget
+qgisMinimumVersion=3.32
+description=A layer tree widget to quickly switch between layer styles
+version=1.0.0
+author=Rick Williams
+email=teleksterling@gmail.com
 
-about=A layer tree widget for quick toggling of labels in a layer
+about=A layer tree widget to quickly switch between layer styles
 
-tracker=https://github.com/north-road/qgis_toggle_labels_widget/issues
-repository=https://github.com/north-road/qgis_toggle_labels_widget
+tracker=https://github.com/teleksterling/qgis_layer_styles_widget/issues
+repository=https://github.com/teleksterling/qgis_layer_styles_widget
 # End of mandatory metadata
 
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=1.0.2 Avoid needless map refreshes
-    1.0.1 Fix exception when exiting plugin
+changelog=
+    1.0.0 Initial Version (based on Dev Cookbook example)
 
 # Tags are comma separated with spaces allowed
-tags=python
+tags=python,widget,legend,layertree,style,view
 
-homepage=https://github.com/north-road/qgis_toggle_labels_widget
+homepage=https://github.com/teleksterling/qgis_layer_styles_widget
 category=Plugins
 icon=icon.png
 # experimental flag

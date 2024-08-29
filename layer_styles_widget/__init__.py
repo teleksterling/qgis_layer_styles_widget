@@ -19,5 +19,5 @@ def classFactory(iface):  # pylint: disable=invalid-name
     :type iface: QgsInterface
     """
     #
-    from .toggle_labels_widget import ToggleLabelsWidgetPlugin
-    return ToggleLabelsWidgetPlugin(iface)
+    from .layer_styles_widget import LayerStylesWidgetPlugin
+    return LayerStylesWidgetPlugin(iface)

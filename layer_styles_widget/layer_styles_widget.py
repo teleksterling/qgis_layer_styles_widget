@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""QGIS Toggle Labels Widget
+"""QGIS Layer Styles Widget
 
 .. note:: This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -7,9 +7,9 @@ the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
 
-__author__ = '(C) 2019 by Nyall Dawson'
-__date__ = '18/01/2019'
-__copyright__ = 'Copyright 2019, North Road'
+__author__ = '(C) 2024 by Rick Williams'
+__date__ = '29/08/2024'
+__copyright__ = 'Copyright 2024, Rick Williams'
 # This will get replaced with a git SHA1 when you do a git archive
 __revision__ = '$Format:%H$'
 
@@ -38,7 +38,7 @@ from qgis.gui import (
 VERSION = '1.0.1'
 
 
-class LayerTreeToggleLabelsWidget(QWidget):
+class LayerTreeLayerStylesWidget(QWidget):
     """
     Layer tree widget for toggling the labels in a layer
     """
@@ -68,7 +68,7 @@ class LayerTreeToggleLabelsWidget(QWidget):
         self.layer.triggerRepaint()
 
 
-class LayerTreeToggleLabelsProvider(QgsLayerTreeEmbeddedWidgetProvider):
+class LayerTreeLayerStylesProvider(QgsLayerTreeEmbeddedWidgetProvider):
     """
     Layer tree provider for toggle labels widgets
     """
@@ -77,16 +77,16 @@ class LayerTreeToggleLabelsProvider(QgsLayerTreeEmbeddedWidgetProvider):
         return 'labels_toggle'
 
     def name(self):  # pylint: disable=missing-docstring
-        return QCoreApplication.translate('ToggleLabelsWidget', 'Toggle labels')
+        return QCoreApplication.translate('LayerStylesWidget', 'Layer style')
 
     def createWidget(self, layer, _):  # pylint: disable=missing-docstring
-        return LayerTreeToggleLabelsWidget(layer)
+        return LayerTreeLayerStylesWidget(layer)
 
     def supportsLayer(self, layer):  # pylint: disable=missing-docstring
         return layer.type() == QgsMapLayer.VectorLayer
 
 
-class ToggleLabelsWidgetPlugin:
+class LayerStylesWidgetPlugin:
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface: QgisInterface):
@@ -118,7 +118,7 @@ class ToggleLabelsWidgetPlugin:
 
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
-        self.provider = LayerTreeToggleLabelsProvider()
+        self.provider = LayerTreeLayerStylesProvider()
         QgsGui.layerTreeEmbeddedWidgetRegistry().addProvider(self.provider)
 
     def unload(self):
