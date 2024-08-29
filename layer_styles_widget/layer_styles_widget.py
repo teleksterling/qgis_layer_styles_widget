@@ -19,15 +19,16 @@ from qgis.PyQt.QtCore import (
     QCoreApplication
 )
 from qgis.PyQt.QtWidgets import (
-    QWidget,
-    QCheckBox,
-    QHBoxLayout,
-    QSpacerItem,
-    QSizePolicy
+    # QWidget,
+    # QCheckBox,
+    # QHBoxLayout,
+    # QSpacerItem,
+    # QSizePolicy,
+    QComboBox
 )
 from qgis.core import (
-    QgsApplication,
-    QgsMapLayer
+    # QgsMapLayer,
+    QgsApplication
 )
 from qgis.gui import (
     QgisInterface,
@@ -35,55 +36,53 @@ from qgis.gui import (
     QgsLayerTreeEmbeddedWidgetProvider
 )
 
-VERSION = '1.0.1'
+VERSION = '1.0.0'
 
 
-class LayerTreeLayerStylesWidget(QWidget):
+class LayerStylesComboBox(QComboBox):
     """
-    Layer tree widget for toggling the labels in a layer
+    Layer tree widget for changing layer style
     """
-
     def __init__(self, layer):
-        super().__init__()
+        QComboBox.__init__(self)
         self.layer = layer
+        for style_name in layer.styleManager().styles():
+            self.addItem(style_name)
 
-        self.setAutoFillBackground(False)
-        self.checkbox = QCheckBox(self.tr("Show Labels"))
-        layout = QHBoxLayout()
-        spacer = QSpacerItem(1, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
-        layout.addWidget(self.checkbox)
-        layout.addItem(spacer)
-        self.setLayout(layout)
+        # self.setAutoFillBackground(False)
+        # self.checkbox = QCheckBox(self.tr("Show Labels"))
+        # layout = QHBoxLayout()
+        # spacer = QSpacerItem(1, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
+        # layout.addWidget(self.checkbox)
+        # layout.addItem(spacer)
+        # self.setLayout(layout)
 
         # init from layer
-        if self.layer.type() == QgsMapLayer.VectorLayer:
-            self.checkbox.setChecked(self.layer.labelsEnabled())
-            self.checkbox.toggled.connect(self.toggled)
+        idx = self.findText(layer.styleManager().currentStyle())
+        if idx != -1:
+          self.setCurrentIndex(idx)
 
-    def toggled(self, active):
-        """
-        Triggered when the checkbox is toggled.
-        """
-        self.layer.setLabelsEnabled(active)
-        self.layer.triggerRepaint()
+        self.currentIndexChanged.connect(self.on_current_changed)
 
+    def on_current_changed(self, index):
+        self.layer.styleManager().setCurrentStyle(self.itemText(index))
+        # self.layer.triggerRepaint()
 
-class LayerTreeLayerStylesProvider(QgsLayerTreeEmbeddedWidgetProvider):
-    """
-    Layer tree provider for toggle labels widgets
-    """
+class LayerStylesWidgetProvider(QgsLayerTreeEmbeddedWidgetProvider):
+    def __init__(self):
+        QgsLayerTreeEmbeddedWidgetProvider.__init__(self)
 
-    def id(self):  # pylint: disable=missing-docstring
-        return 'labels_toggle'
+    def id(self):
+        return "style"
 
-    def name(self):  # pylint: disable=missing-docstring
-        return QCoreApplication.translate('LayerStylesWidget', 'Layer style')
+    def name(self):
+        return "Layer style selector"
 
-    def createWidget(self, layer, _):  # pylint: disable=missing-docstring
-        return LayerTreeLayerStylesWidget(layer)
+    def createWidget(self, layer, widgetIndex):
+        return LayerStylesComboBox(layer)
 
-    def supportsLayer(self, layer):  # pylint: disable=missing-docstring
-        return layer.type() == QgsMapLayer.VectorLayer
+    def supportsLayer(self, layer):
+        return True   # any layer is fine
 
 
 class LayerStylesWidgetPlugin:
@@ -118,7 +117,7 @@ class LayerStylesWidgetPlugin:
 
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
-        self.provider = LayerTreeLayerStylesProvider()
+        self.provider = LayerStylesWidgetProvider()
         QgsGui.layerTreeEmbeddedWidgetRegistry().addProvider(self.provider)
 
     def unload(self):
