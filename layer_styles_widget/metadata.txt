@@ -8,7 +8,7 @@
 
 [general]
 name=Layer Tree Layer Styles Widget
-qgisMinimumVersion=3.32
+qgisMinimumVersion=3.4
 description=A layer tree widget to quickly switch between layer styles
 version=1.0.0
 author=Rick Williams
